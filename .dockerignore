@@ -1,0 +1,18 @@
+# Git
+# no need in container, it is also large 
+.git 
+.gitignore
+
+# Docker
+.docker
+
+# Python
+# must do it because it's created based on my os not alpine that could cause problems
+# unfortanly, docker not support ** like this so must make it like this
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+venv/

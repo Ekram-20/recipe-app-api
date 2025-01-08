@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        # this were we change the environment
+        - DEV=true
+    ports:
+      - "8000:8000"
+    volumes:
+      # map any change in our code to the container
+      - ./app:/app
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
