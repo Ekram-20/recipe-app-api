@@ -3,6 +3,7 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from recipes import models
+from unittest.mock import patch
 
 
 class RecipeModelTests(TestCase):
@@ -23,6 +24,16 @@ class RecipeModelTests(TestCase):
         )
 
         self.assertEqual(str(recipe), recipe.title)
+
+    # we mock the behavior because it is random
+    @patch('recipes.utils.uuid.uuid4')
+    def test_recipe_file_name_uuid(self, mock_uuid):
+        """Test generating image path."""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = models.recipe_image_file_path(None, 'example.jpg')
+
+        self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
 
 
 class TagModelTests(TestCase):

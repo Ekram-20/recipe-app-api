@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 
+from recipes.utils import recipe_image_file_path
+
 
 class Recipe(models.Model):
     """Recipe object."""
@@ -26,6 +28,7 @@ class Recipe(models.Model):
     )
     tags = models.ManyToManyField('Tag')
     ingredients = models.ManyToManyField('Ingredient')
+    image = models.ImageField(null=True, upload_to=recipe_image_file_path)
 
     def __str__(self):
         """Return string representation of recipe."""
