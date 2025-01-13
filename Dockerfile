@@ -18,9 +18,11 @@ ARG DEV=false
 # some thinks no need for venv but it is good to have
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
-    apk add --update --no-cache postgresql-client && \
+    # those are remailing in the image
+    apk add --update --no-cache postgresql-client jpeg-dev && \
     apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev && \
+    # those for installation that will be removed
+        build-base postgresql-dev musl-dev zlib zlib-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
@@ -30,7 +32,14 @@ RUN python -m venv /py && \
     adduser \
         --disabled-password \
         --no-create-home \
-        django-user
+        django-user && \
+    # -p mean create dir and its subdir if not exist
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    # change them owener recursive
+    chown -R django-user:django-user /vol && \
+    # give permission to the user django-user to read and write in the vol dir
+    chmod -R 755 /vol
 
 # I think like active the virtual env
 ENV PATH="/py/bin:$PATH"
