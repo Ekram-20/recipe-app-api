@@ -155,3 +155,8 @@ REST_FRAMEWORK = {
     # for api documentation
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+# upload image through browser interface - swagger ui ?
+SPECTACULAR_SETTINGS = {
+    'COMPONENT_SPLIT_REQUEST': True,
+}
